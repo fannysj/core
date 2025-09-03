@@ -169,9 +169,12 @@ class MetWeather(SingleCoordinatorWeatherEntity[MetDataUpdateCoordinator]):
     @property
     def humidity(self) -> float | None:
         """Return the humidity."""
-        return self.coordinator.data.current_weather_data.get(
+        humidity = self.coordinator.data.current_weather_data.get(
             ATTR_MAP[ATTR_WEATHER_HUMIDITY]
         )
+        if humidity is not None:
+            return humidity * 100
+        return None
 
     @property
     def native_wind_speed(self) -> float | None:
